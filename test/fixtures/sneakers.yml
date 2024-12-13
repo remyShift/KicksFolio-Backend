@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  collection: one
+  brand: MyString
+  model: MyString
+  size: 1.5
+  colorway: MyString
+  purchase_date: 2024-12-13
+  purchase_price: 1.5
+  estimated_value: 1.5
+  image_url: MyString
+
+two:
+  collection: two
+  brand: MyString
+  model: MyString
+  size: 1.5
+  colorway: MyString
+  purchase_date: 2024-12-13
+  purchase_price: 1.5
+  estimated_value: 1.5
+  image_url: MyString
