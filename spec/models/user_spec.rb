@@ -55,4 +55,10 @@ RSpec.describe User, type: :model do
     expect(user.collection).not_to be_nil
     expect { create(:collection, user: user, sneaker: sneaker) }.to raise_error(ActiveRecord::RecordInvalid)
   end
+
+  it "should have a password with 8 chars minimum, 1 uppercase letter and 1 number" do
+    expect(build(:user, password: "password")).not_to be_valid
+    expect(build(:user, password: "Password")).not_to be_valid
+    expect(build(:user, password: "Password1")).to be_valid
+  end
 end
