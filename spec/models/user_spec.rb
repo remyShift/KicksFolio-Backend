@@ -5,45 +5,45 @@ RSpec.describe User, type: :model do
     expect(build(:user)).to be_valid
   end
 
-  it "is valid with all attributes" do
+  it "should be a valid factory" do
     expect(build(:user)).to be_valid
   end
 
-  it "is not valid without an email" do
+  it "should not be valid without an email" do
     expect(build(:user, email: nil)).not_to be_valid
   end
 
-  it "is not valid without a password" do
+  it "should not be valid without a password" do
     expect(build(:user, password: nil)).not_to be_valid
   end
 
-  it "is not valid without a first name" do
+  it "should not be valid without a first name" do
     expect(build(:user, first_name: nil)).not_to be_valid
   end
 
-  it "is not valid without a last name" do
+  it "should not be valid without a last name" do
     expect(build(:user, last_name: nil)).not_to be_valid
   end
 
-  it "is not valid without a pseudo" do
+  it "should not be valid without a pseudo" do
     expect(build(:user, pseudo: nil)).not_to be_valid
   end
 
-  it "is not valid without a sneaker size" do
+  it "should not be valid without a sneaker size" do
     expect(build(:user, sneaker_size: nil)).not_to be_valid
   end
 
-  it "is not valid with a duplicate email" do
+  it "should not be valid with a duplicate email" do
     create(:user, email: "test@example.com")
     expect(build(:user, email: "test@example.com")).not_to be_valid
   end
 
-  it "is not valid with a duplicate pseudo" do
+  it "should not be valid with a duplicate pseudo" do
     create(:user, pseudo: "test")
     expect(build(:user, pseudo: "test")).not_to be_valid
   end
 
-  it "is not valid with invalid email format" do
+  it "should not be valid with invalid email format" do
     expect(build(:user, email: "invalid-email")).not_to be_valid
   end
 
