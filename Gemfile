@@ -19,8 +19,14 @@ gem "solid_cable"
 gem "bootsnap", require: false
 
 group :development, :test do
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+  # FactoryBot for instance generation
+  gem "factory_bot_rails"
+
+  # Faker for generating random test data
+  gem "faker"
+
+  # Shoulda Matchers for RSpec for testing Rails models
+  gem "shoulda-matchers", "~> 5.0"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
@@ -29,4 +35,10 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   gem "rspec-rails", "~> 6.0"
+end
+
+group :development do
+  # Guard for running tests on file changes
+  gem "guard"
+  gem "guard-rspec", require: false
 end
