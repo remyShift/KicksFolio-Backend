@@ -1,5 +1,5 @@
 class Sneaker < ApplicationRecord
   has_many :collections
 
-  validates :brand, :model, :size, :purchase_date, :purchase_price, :condition, presence: true
+  validates :brand, :model, :size, :condition, presence: true
 end
