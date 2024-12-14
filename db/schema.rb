@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_14_195441) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_14_200801) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "collections", force: :cascade do |t|
-    t.string "name"
+    t.string "name", null: false
     t.bigint "user_id", null: false
     t.bigint "sneaker_id", null: false
     t.datetime "created_at", null: false
@@ -35,12 +35,12 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_14_195441) do
   end
 
   create_table "sneakers", force: :cascade do |t|
-    t.string "brand"
-    t.string "model"
-    t.float "size"
+    t.string "brand", null: false
+    t.string "model", null: false
+    t.float "size", null: false
     t.date "purchase_date"
     t.float "purchase_price"
-    t.integer "condition"
+    t.integer "condition", null: false
     t.float "estimated_value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -54,10 +54,10 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_14_195441) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.float "sneaker_size"
-    t.string "last_name"
-    t.string "first_name"
-    t.string "pseudo"
+    t.float "sneaker_size", null: false
+    t.string "last_name", null: false
+    t.string "first_name", null: false
+    t.string "pseudo", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
