@@ -65,4 +65,15 @@ RSpec.describe User, type: :model do
   it "should have a gender" do
     expect(build(:user, gender: nil)).not_to be_valid
   end
+
+  it "should have a sneaker size in a range depending on the gender" do
+    expect(build(:user, sneaker_size: 9, gender: "male")).to be_valid
+    expect(build(:user, sneaker_size: 8, gender: "female")).to be_valid
+    expect(build(:user, sneaker_size: 10, gender: "other")).to be_valid
+  end
+
+  it "should have a sneaker size in increments of 0.5" do
+    expect(build(:user, sneaker_size: 10.5, gender: "male")).to be_valid
+    expect(build(:user, sneaker_size: 10.6, gender: "male")).not_to be_valid
+  end
 end

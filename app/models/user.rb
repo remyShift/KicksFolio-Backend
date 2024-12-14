@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  GENDER = { male: "male", female: "female", other: "other" }
+
   has_many :friends, through: :friendships
   has_many :sneakers, through: :collections
   has_one :collection
@@ -14,5 +16,36 @@ class User < ApplicationRecord
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :sneaker_size, presence: true
-  validates :gender, presence: true
+  validates :gender, presence: true, inclusion: { in: GENDER.values }
+
+  validate :sneaker_size_within_range
+
+  def full_name
+    "#{first_name.capitalize} #{last_name.capitalize}"
+  end
+
+  private
+
+  def sneaker_size_within_range
+    return if sneaker_size.nil?
+
+    if sneaker_size % 0.5 != 0
+      errors.add(:sneaker_size, "must be in increments of 0.5")
+    end
+
+    case gender
+    when "male"
+      unless (4..15).include?(sneaker_size)
+        errors.add(:sneaker_size, "must be between 4 and 15 for men")
+      end
+    when "female"
+      unless (5..12).include?(sneaker_size)
+        errors.add(:sneaker_size, "must be between 5 and 12 for women")
+      end
+    when "other"
+      unless (4..15).include?(sneaker_size)
+        errors.add(:sneaker_size, "must be between 4 and 15 for no gender")
+      end
+    end
+  end
 end
