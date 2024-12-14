@@ -6,4 +6,11 @@ class User < ApplicationRecord
 
   has_many :friends, through: :friendships
   has_many :sneakers, through: :collections
+  has_one :collection
+
+  validates :email, presence: true, uniqueness: true
+  validates :pseudo, presence: true, uniqueness: true
+  validates :first_name, presence: true
+  validates :last_name, presence: true
+  validates :sneaker_size, presence: true
 end
