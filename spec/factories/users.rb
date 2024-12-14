@@ -6,5 +6,6 @@ FactoryBot.define do
     last_name { "Doe" }
     pseudo { "johndoe" }
     sneaker_size { 9 }
+    gender { "male" }
   end
 end

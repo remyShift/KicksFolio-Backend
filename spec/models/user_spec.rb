@@ -61,4 +61,8 @@ RSpec.describe User, type: :model do
     expect(build(:user, password: "Password")).not_to be_valid
     expect(build(:user, password: "Password1")).to be_valid
   end
+
+  it "should have a gender" do
+    expect(build(:user, gender: nil)).not_to be_valid
+  end
 end
