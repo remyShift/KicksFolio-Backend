@@ -43,6 +43,9 @@ group :development, :test do
   # Ruby code style checker
   gem "rubocop"
 
+  # Rack Cors for handling CORS
+  gem "rack-cors"
+
   # RSpec for testing
   gem "rspec-rails", "~> 6.0"
 
