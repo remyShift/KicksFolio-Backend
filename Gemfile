@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 8.0.0", ">= 8.0.0.1"
+gem "rails", "~> 7.1.0"
 
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
@@ -11,6 +11,10 @@ gem "puma", ">= 5.0"
 
 # Authentication
 gem "devise"
+
+# Authentication with token
+gem "omniauth", ">= 1.0.0"
+gem "devise_token_auth"
 
 # Use the database-backed adapters for Rails.cache, Active Job, and Action Cable
 gem "solid_cache"
