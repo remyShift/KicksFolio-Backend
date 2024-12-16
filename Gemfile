@@ -32,7 +32,7 @@ group :development, :test do
   gem "faker"
 
   # Shoulda Matchers for RSpec for testing Rails models
-  gem "shoulda-matchers", "~> 5.0"
+  gem "shoulda-matchers", "~> 6.4"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
