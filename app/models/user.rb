@@ -6,11 +6,10 @@ class User < ApplicationRecord
 
   GENDER = { male: "male", female: "female", other: "other" }
 
-  has_many :friends, through: :friendships
-  has_many :sneakers, through: :collections
   has_one :collection
+  has_many :sneakers, through: :collection
 
-  validates :email, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
   validates :password, presence: true, length: { minimum: 8 }, format: { with: /\A(?=.*[A-Z])(?=.*\d).+\z/ }
   validates :pseudo, presence: true, uniqueness: true
   validates :first_name, presence: true
@@ -20,11 +19,17 @@ class User < ApplicationRecord
 
   validate :sneaker_size_within_range
 
+  before_save :downcase_email
+
   def full_name
     "#{first_name.capitalize} #{last_name.capitalize}"
   end
 
   private
+
+  def downcase_email
+    self.email = email.downcase
+  end
 
   def sneaker_size_within_range
     return if sneaker_size.nil?

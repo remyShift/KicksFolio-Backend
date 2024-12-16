@@ -10,17 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_14_211334) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_16_104920) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "collections", force: :cascade do |t|
     t.string "name", null: false
     t.bigint "user_id", null: false
-    t.bigint "sneaker_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["sneaker_id"], name: "index_collections_on_sneaker_id"
     t.index ["user_id"], name: "index_collections_on_user_id"
   end
 
@@ -44,6 +42,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_14_211334) do
     t.float "estimated_value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "collection_id", null: false
+    t.index ["collection_id"], name: "index_sneakers_on_collection_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -63,8 +63,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_14_211334) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "collections", "sneakers"
   add_foreign_key "collections", "users"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id"
+  add_foreign_key "sneakers", "collections"
 end

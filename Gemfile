@@ -2,8 +2,10 @@ source "https://rubygems.org"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.0.0", ">= 8.0.0.1"
+
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
+
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 
@@ -32,15 +34,14 @@ group :development, :test do
   gem "brakeman", require: false
 
   # Database cleaner for cleaning the database between tests
-  gem 'database_cleaner-active_record'
+  gem "database_cleaner-active_record"
 
-  # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
-  gem "rubocop-rails-omakase", require: false
+  # Ruby code style checker
+  gem "rubocop"
 
+  # RSpec for testing
   gem "rspec-rails", "~> 6.0"
-end
 
-group :development do
   # Guard for running tests on file changes
   gem "guard"
   gem "guard-rspec", require: false

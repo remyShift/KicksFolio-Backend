@@ -1,6 +1,6 @@
 class Collection < ApplicationRecord
   belongs_to :user
-  belongs_to :sneaker
+  has_many :sneakers
 
   validates :name, presence: true
   validates :user_id, uniqueness: true

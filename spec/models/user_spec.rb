@@ -1,50 +1,36 @@
 require "rails_helper"
 
 RSpec.describe User, type: :model do
-  it "has a valid factory (initialized with correct values)" do
-    expect(build(:user)).to be_valid
+  it { should validate_presence_of(:email) }
+  it { should validate_presence_of(:password) }
+  it { should validate_presence_of(:first_name) }
+  it { should validate_presence_of(:last_name) }
+  it { should validate_presence_of(:pseudo) }
+  it { should validate_presence_of(:sneaker_size) }
+  it { should validate_presence_of(:gender) }
+  it { should have_one(:collection) }
+  it { should have_many(:sneakers).through(:collection) }
 
-    expect(build(:user)).to be_valid
-    expect(build(:user, email: nil)).not_to be_valid
-    expect(build(:user, password: nil)).not_to be_valid
-    expect(build(:user, first_name: nil)).not_to be_valid
-    expect(build(:user, last_name: nil)).not_to be_valid
-    expect(build(:user, pseudo: nil)).not_to be_valid
-    expect(build(:user, sneaker_size: nil)).not_to be_valid
+  it "validates uniqueness of email" do
+    create(:user, email: "test@example.com", sneaker_size: 9, gender: "male")
+    should validate_uniqueness_of(:email).case_insensitive
   end
 
-  it "should not be valid with a duplicate email" do
-    create(:user, email: "test@example.com")
-    expect(build(:user, email: "test@example.com")).not_to be_valid
+  it "validates uniqueness of pseudo" do
+    create(:user, pseudo: "test", sneaker_size: 9, gender: "male")
+    should validate_uniqueness_of(:pseudo)
   end
 
-  it "should not be valid with a duplicate pseudo" do
-    create(:user, pseudo: "test")
-    expect(build(:user, pseudo: "test")).not_to be_valid
+  it "validates format of email" do
+    should allow_value("test@example.com").for(:email)
+    should_not allow_value("invalid_email").for(:email)
   end
 
-  it "should not be valid with invalid email format" do
-    expect(build(:user, email: "invalid-email")).not_to be_valid
-  end
 
-  it 'should have only one collection' do
-    user = create(:user)
-    sneaker = create(:sneaker)
-    create(:collection, user: user, sneaker: sneaker)
-
-    expect(user.collection).not_to be_nil
-    expect { create(:collection, user: user, sneaker: sneaker) }.to raise_error(ActiveRecord::RecordInvalid)
-  end
-
-  it "should have a password with 8 chars minimum, 1 uppercase letter and 1 number" do
-    expect(build(:user, password: "password")).not_to be_valid
-    expect(build(:user, password: "Password")).not_to be_valid
-    expect(build(:user, password: "Password1")).to be_valid
-  end
-
-  it "should have a gender" do
-    expect(build(:user, gender: nil)).not_to be_valid
-  end
+  it { should validate_length_of(:password).is_at_least(8) }
+  it { should allow_value("Password1").for(:password) }
+  it { should_not allow_value("password").for(:password) }
+  it { should_not allow_value("Password").for(:password) }
 
   it "should have a sneaker size in a range depending on the gender" do
     expect(build(:user, sneaker_size: 9, gender: "male")).to be_valid
