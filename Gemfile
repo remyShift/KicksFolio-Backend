@@ -44,7 +44,7 @@ group :development, :test do
   gem "rubocop"
 
   # RSpec for testing
-  gem "rspec-rails", "~> 6.0"
+  gem "rspec-rails", "~> 7.1"
 
   # Guard for running tests on file changes
   gem "guard"
