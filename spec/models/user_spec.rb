@@ -1,35 +1,15 @@
 require "rails_helper"
 
 RSpec.describe User, type: :model do
-  it "has a valid factory" do
+  it "has a valid factory (initialized with correct values)" do
     expect(build(:user)).to be_valid
-  end
 
-  it "should be a valid factory" do
     expect(build(:user)).to be_valid
-  end
-
-  it "should not be valid without an email" do
     expect(build(:user, email: nil)).not_to be_valid
-  end
-
-  it "should not be valid without a password" do
     expect(build(:user, password: nil)).not_to be_valid
-  end
-
-  it "should not be valid without a first name" do
     expect(build(:user, first_name: nil)).not_to be_valid
-  end
-
-  it "should not be valid without a last name" do
     expect(build(:user, last_name: nil)).not_to be_valid
-  end
-
-  it "should not be valid without a pseudo" do
     expect(build(:user, pseudo: nil)).not_to be_valid
-  end
-
-  it "should not be valid without a sneaker size" do
     expect(build(:user, sneaker_size: nil)).not_to be_valid
   end
 
