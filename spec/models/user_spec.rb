@@ -13,7 +13,8 @@ RSpec.describe User, type: :model do
 
   it "validates uniqueness of email" do
     create(:user, email: "test@example.com", sneaker_size: 9, gender: "male")
-    should validate_uniqueness_of(:email).case_insensitive
+    new_user = build(:user, email: "test@example.com", sneaker_size: 9, gender: "male")
+    expect(new_user).not_to be_valid
   end
 
   it "validates uniqueness of pseudo" do

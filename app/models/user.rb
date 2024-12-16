@@ -1,9 +1,10 @@
 class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
+  attr_accessor :confirm_success_url
 
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :trackable, :validatable,
-          :omniauthable
+          :omniauthable, :confirmable
 
   GENDER = { male: "male", female: "female", other: "other" }
 
