@@ -3,6 +3,8 @@ class User < ApplicationRecord
 
   has_one :collection, dependent: :destroy
   has_many :sneakers, through: :collection, dependent: :destroy
+  has_many :friendships, dependent: :destroy
+  has_many :friends, through: :friendships, dependent: :destroy
 
   has_secure_password
 
