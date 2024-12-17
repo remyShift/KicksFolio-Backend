@@ -65,4 +65,21 @@ RSpec.describe "Collections", type: :request do
       expect(response).to have_http_status(:not_found)
     end
   end
+
+  describe "PATCH /api/v1/users/:id/collection" do
+    it "updates a collection" do
+      collection = create(:collection, user: user)
+  
+      patch "/api/v1/users/#{user.id}/collection", 
+        params: { 
+          collection: { 
+            name: "Test Toto" 
+          } 
+        }, 
+        headers: headers
+
+      expect(response).to have_http_status(:ok)
+      expect(collection.reload.name).to eq("Test Toto")
+    end
+  end
 end

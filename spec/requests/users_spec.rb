@@ -79,6 +79,12 @@ RSpec.describe "Users", type: :request do
         } 
       }, headers: { "Authorization" => "Bearer #{token}" }
       expect(response).to have_http_status(:ok)
+      expect(user.reload.email).to eq("test2@example.com")
+      expect(user.reload.username).to eq("testuser2")
+      expect(user.reload.first_name).to eq("Jane")
+      expect(user.reload.last_name).to eq("Doe")
+      expect(user.reload.sneaker_size).to eq(11)
+      expect(user.reload.gender).to eq("female")
     end
   end
 end

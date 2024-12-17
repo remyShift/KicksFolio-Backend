@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       delete "/logout", to: "authentication#logout"
 
       resources :users, only: [:create, :destroy, :update] do
-        resource :collection, only: [:create, :show, :destroy] do
+        resource :collection, only: [:create, :show, :destroy, :update] do
           resources :sneakers, only: [:create, :index, :destroy]
         end
       end

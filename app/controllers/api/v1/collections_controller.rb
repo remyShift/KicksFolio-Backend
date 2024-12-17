@@ -27,6 +27,17 @@ class Api::V1::CollectionsController < ApplicationController
     end
   end
 
+  def update
+    collection = Collection.find_by(user_id: @current_user.id)
+
+    if collection
+      collection.update(collection_params)
+      render json: { collection: collection }, status: :ok
+    else
+      render json: { errors: "Collection not found" }, status: :not_found
+    end
+  end
+
   private
 
   def collection_params
