@@ -6,19 +6,23 @@ class Friendship < ApplicationRecord
 
   def accept
     self.status = "accepted"
+    save
   end
 
   def decline
     self.status = "declined"
+    save
   end
 
   def block
     self.status = "blocked"
+    save
   end
 
   private
 
   def set_default_status
     self.status = "pending"
+    save
   end
 end

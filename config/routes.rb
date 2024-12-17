@@ -7,6 +7,9 @@ Rails.application.routes.draw do
       resources :friendships, only: [:create] do
         member do
           patch :accept
+          patch :decline
+          patch :block
+          delete :destroy
         end
       end
 

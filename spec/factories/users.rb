@@ -4,7 +4,7 @@ FactoryBot.define do
     password { "Password123" }
     first_name { "John" }
     last_name { "Doe" }
-    username { "totouser" }
+    username { "johndoe" }
     sneaker_size { 9.5 }
     gender { "male" }
   end
@@ -17,5 +17,15 @@ FactoryBot.define do
     username { "janesmith" }
     sneaker_size { 8.0 }
     gender { "female" }
+  end
+
+  factory :user3, class: User do
+    email { "johndoe@example.com" }
+    password { "Password123" }
+    first_name { "John" }
+    last_name { "Doe" }
+    username { "totouser" }
+    sneaker_size { 9.5 }
+    gender { "male" }
   end
 end
