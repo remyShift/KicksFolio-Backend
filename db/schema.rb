@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_17_103843) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_17_123725) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -52,8 +52,10 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_17_103843) do
     t.float "sneaker_size", null: false
     t.string "last_name", null: false
     t.string "first_name", null: false
-    t.string "pseudo", null: false
+    t.string "username", null: false
     t.string "gender", null: false
+    t.string "email", null: false
+    t.string "password_digest", null: false
   end
 
   add_foreign_key "collections", "users"

@@ -5,8 +5,8 @@ class User < ApplicationRecord
   has_many :sneakers, through: :collection, dependent: :destroy
 
   validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :password, presence: true, length: { minimum: 8 }, format: { with: /\A(?=.*[A-Z])(?=.*\d).+\z/ }
-  validates :pseudo, presence: true, uniqueness: true
+  validates :password_digest, presence: true, length: { minimum: 8 }, format: { with: /\A(?=.*[A-Z])(?=.*\d).+\z/ }
+  validates :username, presence: true, uniqueness: true
   validates :first_name, presence: true
   validates :last_name, presence: true
   validates :sneaker_size, presence: true

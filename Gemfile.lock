@@ -74,6 +74,7 @@ GEM
       uri (>= 0.13.1)
     ast (2.4.2)
     base64 (0.2.0)
+    bcrypt (3.1.20)
     benchmark (0.4.0)
     bigdecimal (3.1.8)
     bootsnap (1.18.4)
@@ -319,6 +320,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  bcrypt
   bootsnap
   brakeman
   database_cleaner-active_record

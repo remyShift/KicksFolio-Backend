@@ -17,6 +17,9 @@ gem "solid_cable"
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
 
+# Bcrypt for password hashing
+gem "bcrypt"
+
 group :development, :test do
   # FactoryBot for instance generation
   gem "factory_bot_rails"
