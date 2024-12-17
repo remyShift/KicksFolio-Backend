@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
       resources :users, only: [:create] do
         resource :collection, only: [:create, :show, :destroy] do
-          resources :sneakers, only: [:create]
+          resources :sneakers, only: [:create, :index, :destroy]
         end
       end
     end
