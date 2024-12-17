@@ -20,6 +20,9 @@ gem "bootsnap", require: false
 # Bcrypt for password hashing
 gem "bcrypt"
 
+# JWT for token authentication
+gem "jwt"
+
 group :development, :test do
   # FactoryBot for instance generation
   gem "factory_bot_rails"
