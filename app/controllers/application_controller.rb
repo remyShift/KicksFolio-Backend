@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::API
 
+  private
+
   def authorize_request
     header = request.headers["Authorization"]
     return unauthorized_error("No token provided") if header.nil?
@@ -18,5 +20,9 @@ class ApplicationController < ActionController::API
     rescue ActiveRecord::RecordNotFound
       unauthorized_error("User not found")
     end
+  end
+
+  def unauthorized_error(message)
+    render json: { error: message }, status: :unauthorized
   end
 end
