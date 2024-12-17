@@ -4,8 +4,14 @@ class User < ApplicationRecord
   has_one :collection, dependent: :destroy
   has_many :sneakers, through: :collection, dependent: :destroy
 
+  has_secure_password
+
   validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
-  validates :password_digest, presence: true, length: { minimum: 8 }, format: { with: /\A(?=.*[A-Z])(?=.*\d).+\z/ }
+  validates :password,
+            presence: true,
+            length: { minimum: 8 },
+            format: { with: /\A(?=.*[A-Z])(?=.*\d).+\z/ },
+            if: -> { new_record? || !password.nil? }
   validates :username, presence: true, uniqueness: true
   validates :first_name, presence: true
   validates :last_name, presence: true
@@ -15,7 +21,6 @@ class User < ApplicationRecord
   validate :sneaker_size_within_range
 
   before_save :downcase_email
-
   def full_name
     "#{first_name.capitalize} #{last_name.capitalize}"
   end
@@ -40,7 +45,7 @@ class User < ApplicationRecord
       end
     when "female"
       unless (5..12).include?(sneaker_size)
-        errors.add(:sneaker_size, "must be between 5 and 12 for women")
+        errors.add(:sneaker_size, "must be between 5 et 12 for women")
       end
     when "other"
       unless (4..15).include?(sneaker_size)
