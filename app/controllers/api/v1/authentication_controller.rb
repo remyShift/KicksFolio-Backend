@@ -1,5 +1,8 @@
+
 class Api::V1::AuthenticationController < ApplicationController
   require "jwt"
+
+  before_action :authorize_request, only: [:logout]
 
   REMEMBER_ME_EXPIRATION = 60.days.to_i
   DEFAULT_EXPIRATION = 2.days.to_i
@@ -29,6 +32,15 @@ class Api::V1::AuthenticationController < ApplicationController
   end
 
   def logout
+    token = request.headers["Authorization"].split(" ").last
+    decoded = JWT.decode(token, ENV["JWT_SECRET"], true, algorithm: "HS256")
+    
+    InvalidToken.create!(
+      token: token,
+      exp: Time.at(decoded[0]["exp"])
+    )
+    
+    render json: { message: "Successfully logged out" }, status: :ok
   end
 
   private
