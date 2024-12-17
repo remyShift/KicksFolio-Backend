@@ -26,6 +26,9 @@ gem "jwt"
 # dotenv for environment variables
 gem "dotenv-rails"
 
+# cron jobs
+gem "whenever"
+
 group :development, :test do
   # FactoryBot for instance generation
   gem "factory_bot_rails"
