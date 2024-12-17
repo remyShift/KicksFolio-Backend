@@ -40,4 +40,20 @@ RSpec.describe "Sneakers", type: :request do
       expect(response).to have_http_status(:no_content)
     end
   end
+
+  describe "PATCH /api/v1/users/:id/collection/sneakers/:id" do
+    it "updates a sneaker" do
+      sneaker = create(:sneaker, collection: collection)
+      patch "/api/v1/users/#{user.id}/collection/sneakers/#{sneaker.id}", 
+        params: { 
+          sneaker: { 
+            condition: 9 
+          } 
+        }, 
+        headers: headers
+
+      expect(response).to have_http_status(:ok)
+      expect(sneaker.reload.condition).to eq(9)
+    end
+  end
 end

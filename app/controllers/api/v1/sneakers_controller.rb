@@ -34,6 +34,17 @@ class Api::V1::SneakersController < ApplicationController
     end
   end
 
+  def update
+    sneaker = Sneaker.find(params[:id])
+
+    if sneaker
+      sneaker.update(sneaker_params)
+      render json: { sneaker: sneaker }, status: :ok
+    else
+      render json: { errors: "Sneaker not found" }, status: :not_found
+    end
+  end
+
   private
 
   def sneaker_params
