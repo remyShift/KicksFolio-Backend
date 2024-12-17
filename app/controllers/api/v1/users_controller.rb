@@ -10,6 +10,28 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def destroy
+    user = User.find(params[:id])
+
+    if user
+      user.destroy
+      head :no_content
+    else
+      render json: { errors: "User not found" }, status: :not_found
+    end
+  end
+
+  def update
+    user = User.find(params[:id])
+
+    if user
+      user.update(user_params)
+      render json: { user: user }, status: :ok
+    else
+      render json: { errors: "User not found" }, status: :not_found
+    end
+  end
+
   private
 
   def user_params
