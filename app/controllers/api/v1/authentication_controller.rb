@@ -7,7 +7,15 @@ class Api::V1::AuthenticationController < ApplicationController
     else
       user = user.first
       if user.authenticate(authenticate_params[:password])
-        render json: { user: user }, status: :ok
+        exp = 172800 # 2 days
+        #TODO remember me
+
+        token = JWT.encode({
+          sub: user.id,
+          exp: Time.now.to_i + exp
+        }, ENV["JWT_SECRET"], "HS256")
+
+        render json: {user: user, token: token}
       else
         render json: { error: "Invalid email or password" }, status: :unauthorized
       end

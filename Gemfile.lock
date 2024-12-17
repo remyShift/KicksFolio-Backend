@@ -92,6 +92,10 @@ GEM
     database_cleaner-core (2.0.1)
     date (3.4.1)
     diff-lcs (1.5.1)
+    dotenv (3.1.6)
+    dotenv-rails (3.1.6)
+      dotenv (= 3.1.6)
+      railties (>= 6.1)
     drb (2.2.1)
     erubi (1.13.0)
     et-orbi (1.2.11)
@@ -326,6 +330,7 @@ DEPENDENCIES
   bootsnap
   brakeman
   database_cleaner-active_record
+  dotenv-rails
   factory_bot_rails
   faker
   guard
