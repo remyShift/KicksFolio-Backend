@@ -1,7 +1,6 @@
 class Api::V1::FriendshipsController < ApplicationController
   before_action :authorize_request
   before_action :set_friendship, only: [ :accept, :decline, :block, :destroy ]
-  before_action :set_current_user, only: [ :create ]
   before_action :check_friend, only: [ :accept, :decline ]
   before_action :check_friendship, only: [ :block, :destroy ]
 
@@ -55,10 +54,6 @@ class Api::V1::FriendshipsController < ApplicationController
 
   def set_friendship
     @friendship = Friendship.find(params[:id])
-  end
-
-  def set_current_user
-    @current_user = User.find(params[:user_id])
   end
 
   def check_friend

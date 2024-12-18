@@ -38,6 +38,31 @@ class Api::V1::CollectionsController < ApplicationController
     end
   end
 
+  def friends_collections
+    @current_user = User.find(params[:user_id])
+
+    all_friends = @current_user.friends +
+                  User.joins(:friendships)
+                      .where(friendships: { friend_id: @current_user.id, status: "accepted" })
+
+    if all_friends.empty?
+      render json: { friends_collections: [] }, status: :ok
+    else
+      friends_collections = all_friends.uniq.map do |friend|
+        {
+          friend: {
+            id: friend.id,
+            username: friend.username,
+            first_name: friend.first_name,
+            last_name: friend.last_name
+          },
+          collection: friend.collection
+        }
+      end
+      render json: { friends_collections: friends_collections }, status: :ok
+    end
+  end
+
   private
 
   def collection_params
