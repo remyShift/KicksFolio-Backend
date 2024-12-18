@@ -29,6 +29,9 @@ gem "dotenv-rails"
 # cron jobs
 gem "whenever"
 
+# AWS S3 for image storage
+gem "aws-sdk-s3"
+
 group :development, :test do
   # FactoryBot for instance generation
   gem "factory_bot_rails"
@@ -47,6 +50,7 @@ group :development, :test do
 
   # Ruby code style checker
   gem "rubocop"
+  gem "rubocop-rails-omakase"
 
   # RSpec for testing
   gem "rspec-rails", "~> 6.0"
