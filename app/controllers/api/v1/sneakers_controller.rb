@@ -11,9 +11,9 @@ class Api::V1::SneakersController < ApplicationController
     if sneaker.save
       render json: {
         sneaker: sneaker.as_json.merge(
-          photos: sneaker.photos.map { |photo|
+          images: sneaker.images.map { |image|
             {
-              url: url_for(photo)
+              url: url_for(image)
             }
           }
         )
@@ -60,7 +60,7 @@ class Api::V1::SneakersController < ApplicationController
   private
 
   def sneaker_params
-    params.require(:sneaker).permit(:model, :brand, :size, :condition, photos: [])
+    params.require(:sneaker).permit(:model, :brand, :size, :condition, images: [])
   end
 
   def set_current_user

@@ -8,7 +8,7 @@ class Api::V1::CollectionsController < ApplicationController
 
   def create
     collection = Collection.new(collection_params.merge(user_id: @current_user.id))
-    
+
     if collection.save
       render json: { collection: collection }, status: :created
     else
@@ -18,7 +18,7 @@ class Api::V1::CollectionsController < ApplicationController
 
   def destroy
     collection = Collection.find_by(user_id: @current_user.id)
-    
+
     if collection
       collection.destroy
       head :no_content

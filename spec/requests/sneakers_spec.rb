@@ -5,9 +5,43 @@ RSpec.describe "Sneakers", type: :request do
   let(:token) { JWT.encode({ sub: user.id, exp: 24.hours.from_now.to_i }, ENV["JWT_SECRET"], "HS256") }
   let(:headers) { { "Authorization" => "Bearer #{token}" } }
   let!(:collection) { create(:collection, user: user) }
+  let(:file) { fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'sneaker.jpg'), 'image/jpeg') }
 
   describe "POST /create" do
     it "creates a new sneaker in the users collection" do
+      post "/api/v1/users/#{user.id}/collection/sneakers",
+        params: {
+          sneaker: {
+            model: "Air Jordan 1",
+            brand: "Nike",
+            size: 9.5,
+            condition: 10,
+            images: [ file ]
+          }
+        },
+        headers: headers
+
+      expect(response).to have_http_status(:created)
+    end
+
+    it "creates a new sneaker with photos in the users collection" do
+      post "/api/v1/users/#{user.id}/collection/sneakers",
+        params: {
+          sneaker: {
+            model: "Air Jordan 1",
+            brand: "Nike",
+            size: 9.5,
+            condition: 10,
+            images: [ file ]
+          }
+        },
+        headers: headers
+
+      expect(response).to have_http_status(:created)
+      expect(JSON.parse(response.body)["sneaker"]["images"]).to be_present
+    end
+
+    it "returns an error if the sneaker has no images" do
       post "/api/v1/users/#{user.id}/collection/sneakers",
         params: {
           sneaker: {
@@ -19,26 +53,8 @@ RSpec.describe "Sneakers", type: :request do
         },
         headers: headers
 
-      expect(response).to have_http_status(:created)
-    end
-
-    it "creates a new sneaker with photos in the users collection" do
-      file = fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'sneaker.jpg'), 'image/jpeg')
-
-      post "/api/v1/users/#{user.id}/collection/sneakers",
-        params: {
-          sneaker: {
-            model: "Air Jordan 1",
-            brand: "Nike",
-            size: 9.5,
-            condition: 10,
-            photos: [ file ]
-          }
-        },
-        headers: headers
-
-      expect(response).to have_http_status(:created)
-      expect(JSON.parse(response.body)["sneaker"]["photos"]).to be_present
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(JSON.parse(response.body)["errors"]).to include("Images can't be blank")
     end
   end
 
@@ -53,7 +69,7 @@ RSpec.describe "Sneakers", type: :request do
 
   describe "DELETE /destroy" do
     it "deletes a sneaker from the users collection" do
-      sneaker = create(:sneaker, collection: collection)
+      sneaker = create(:sneaker, collection: collection, images: [ file ])
       delete "/api/v1/users/#{user.id}/collection/sneakers/#{sneaker.id}", headers: headers
       expect(response).to have_http_status(:no_content)
     end
@@ -61,7 +77,7 @@ RSpec.describe "Sneakers", type: :request do
 
   describe "PATCH /api/v1/users/:id/collection/sneakers/:id" do
     it "updates a sneaker" do
-      sneaker = create(:sneaker, collection: collection)
+      sneaker = create(:sneaker, collection: collection, images: [ file ])
       patch "/api/v1/users/#{user.id}/collection/sneakers/#{sneaker.id}",
         params: {
           sneaker: {
