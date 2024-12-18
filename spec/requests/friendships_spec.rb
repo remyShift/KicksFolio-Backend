@@ -70,7 +70,7 @@ RSpec.describe "Friendships", type: :request do
 
     it "removes a friendship" do
       delete "/api/v1/friendships/#{friendship.id}", headers: headers
-      expect(response).to have_http_status(:ok)
+      expect(response).to have_http_status(:no_content)
       expect(Friendship.exists?(friendship.id)).to be_falsey
     end
   end

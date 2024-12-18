@@ -4,7 +4,7 @@ Rails.application.routes.draw do
       post "/login", to: "authentication#login"
       delete "/logout", to: "authentication#logout"
 
-      resources :friendships, only: [:create] do
+      resources :friendships, only: [ :create, :destroy ] do
         member do
           patch :accept
           patch :decline
@@ -13,9 +13,9 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :users, only: [:create, :destroy, :update, :index] do
-        resource :collection, only: [:create, :show, :destroy, :update] do
-          resources :sneakers, only: [:create, :index, :destroy, :update]
+      resources :users, only: [ :create, :destroy, :update, :index, :show ] do
+        resource :collection, only: [ :create, :show, :destroy, :update ] do
+          resources :sneakers, only: [ :create, :index, :destroy, :update ]
         end
       end
     end

@@ -3,9 +3,21 @@ class User < ApplicationRecord
 
   has_one :collection, dependent: :destroy
   has_many :sneakers, through: :collection, dependent: :destroy
-  has_many :friendships, dependent: :destroy
-  has_many :friends, through: :friendships, dependent: :destroy
 
+  has_many :friendships, dependent: :destroy
+  has_many :received_friendships, class_name: "Friendship", foreign_key: :friend_id
+  has_many :friends,
+            -> { where(friendships: { status: "accepted" }) },
+            through: :friendships,
+            source: :friend
+  has_many :pending_friends,
+            -> { where(friendships: { status: "pending" }) },
+            through: :friendships,
+            source: :friend
+  has_many :blocked_friends,
+            -> { where(friendships: { status: "blocked" }) },
+            through: :friendships,
+            source: :friend
   has_secure_password
 
   validates :email, presence: true, uniqueness: { case_sensitive: false }, format: { with: URI::MailTo::EMAIL_REGEXP }
@@ -23,8 +35,21 @@ class User < ApplicationRecord
   validate :sneaker_size_within_range
 
   before_save :downcase_email
+
   def full_name
     "#{first_name.capitalize} #{last_name.capitalize}"
+  end
+
+  def friends_list
+    friends.map { |friend| { id: friend.id, username: friend.username, first_name: friend.first_name, last_name: friend.last_name } }
+  end
+
+  def pending_friends_list
+    pending_friends.map { |friend| { id: friend.id, username: friend.username, first_name: friend.first_name, last_name: friend.last_name } }
+  end
+
+  def blocked_friends_list
+    blocked_friends.map { |friend| { id: friend.id, username: friend.username, first_name: friend.first_name, last_name: friend.last_name } }
   end
 
   private
