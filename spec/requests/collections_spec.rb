@@ -8,12 +8,12 @@ RSpec.describe "Collections", type: :request do
 
   describe "POST /create" do
     it "returns a successful response with a new collection for the current user" do
-      post "/api/v1/users/#{user.id}/collection", 
-        params: { 
-          collection: { 
-            name: "Test Collection" 
-          } 
-        }, 
+      post "/api/v1/users/#{user.id}/collection",
+        params: {
+          collection: {
+            name: "Test Collection"
+          }
+        },
         headers: headers
 
       expect(response).to have_http_status(:created)
@@ -24,17 +24,17 @@ RSpec.describe "Collections", type: :request do
     end
 
     it "returns an error if the collection is not valid" do
-      post "/api/v1/users/#{user.id}/collection", 
-        params: { collection: { name: "" } }, 
+      post "/api/v1/users/#{user.id}/collection",
+        params: { collection: { name: "" } },
         headers: headers
-  
+
       expect(response).to have_http_status(:unprocessable_entity)
     end
 
     it "returns an error if the user already has a collection" do
       create(:collection, user: user)
-      post "/api/v1/users/#{user.id}/collection", 
-        params: { collection: { name: "Test Collection 2" } }, 
+      post "/api/v1/users/#{user.id}/collection",
+        params: { collection: { name: "Test Collection 2" } },
         headers: headers
 
       expect(response).to have_http_status(:unprocessable_entity)
@@ -69,13 +69,13 @@ RSpec.describe "Collections", type: :request do
   describe "PATCH /api/v1/users/:id/collection" do
     it "updates a collection" do
       collection = create(:collection, user: user)
-  
-      patch "/api/v1/users/#{user.id}/collection", 
-        params: { 
-          collection: { 
-            name: "Test Toto" 
-          } 
-        }, 
+
+      patch "/api/v1/users/#{user.id}/collection",
+        params: {
+          collection: {
+            name: "Test Toto"
+          }
+        },
         headers: headers
 
       expect(response).to have_http_status(:ok)

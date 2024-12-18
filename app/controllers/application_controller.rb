@@ -1,11 +1,10 @@
 class ApplicationController < ActionController::API
-
   private
 
   def authorize_request
     header = request.headers["Authorization"]
     return unauthorized_error("No token provided") if header.nil?
-  
+
     begin
       token = header.split(" ").last
 

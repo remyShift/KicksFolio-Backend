@@ -8,7 +8,7 @@ RSpec.describe "Sneakers", type: :request do
 
   describe "POST /create" do
     it "creates a new sneaker in the users collection" do
-      post "/api/v1/users/#{user.id}/collection/sneakers", 
+      post "/api/v1/users/#{user.id}/collection/sneakers",
         params: {
           sneaker: {
             model: "Air Jordan 1",
@@ -21,13 +21,31 @@ RSpec.describe "Sneakers", type: :request do
 
       expect(response).to have_http_status(:created)
     end
+
+    it "creates a new sneaker with photos in the users collection" do
+      file = fixture_file_upload(Rails.root.join('spec', 'fixtures', 'files', 'sneaker.jpg'), 'image/jpeg')
+
+      post "/api/v1/users/#{user.id}/collection/sneakers",
+        params: {
+          sneaker: {
+            model: "Air Jordan 1",
+            brand: "Nike",
+            size: 9.5,
+            condition: 10,
+            photos: [ file ]
+          }
+        },
+        headers: headers
+
+      expect(response).to have_http_status(:created)
+      expect(JSON.parse(response.body)["sneaker"]["photos"]).to be_present
+    end
   end
 
   describe "GET /index" do
     it "returns all sneakers in the users collection" do
       get "/api/v1/users/#{user.id}/collection/sneakers", headers: headers
       expect(response).to have_http_status(:ok)
-      
       response_body = JSON.parse(response.body)
       expect(response_body["sneakers"].count).to eq(collection.sneakers.count)
     end
@@ -44,12 +62,12 @@ RSpec.describe "Sneakers", type: :request do
   describe "PATCH /api/v1/users/:id/collection/sneakers/:id" do
     it "updates a sneaker" do
       sneaker = create(:sneaker, collection: collection)
-      patch "/api/v1/users/#{user.id}/collection/sneakers/#{sneaker.id}", 
-        params: { 
-          sneaker: { 
-            condition: 9 
-          } 
-        }, 
+      patch "/api/v1/users/#{user.id}/collection/sneakers/#{sneaker.id}",
+        params: {
+          sneaker: {
+            condition: 9
+          }
+        },
         headers: headers
 
       expect(response).to have_http_status(:ok)

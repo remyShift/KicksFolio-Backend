@@ -30,7 +30,7 @@ gem "dotenv-rails"
 gem "whenever"
 
 # AWS S3 for image storage
-gem "aws-sdk-s3"
+gem "aws-sdk-s3", require: false
 
 group :development, :test do
   # FactoryBot for instance generation

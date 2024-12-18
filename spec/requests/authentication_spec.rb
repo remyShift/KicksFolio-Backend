@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Authentications", type: :request do
   describe "POST /api/v1/users" do
     it "Creates a user" do
-      post "/api/v1/users", params: {     
+      post "/api/v1/users", params: {
         user: {
           email: "toto@example.com",
           password: "Password123",

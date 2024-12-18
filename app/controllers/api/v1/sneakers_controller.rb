@@ -1,16 +1,28 @@
 class Api::V1::SneakersController < ApplicationController
+  include Rails.application.routes.url_helpers
+
+  before_action :authorize_request
   before_action :set_current_user
   before_action :set_collection
-  before_action :authorize_request
 
   def create
     sneaker = Sneaker.new(sneaker_params.merge(collection_id: @collection.id))
 
     if sneaker.save
-      render json: { sneaker: sneaker }, status: :created
+      render json: {
+        sneaker: sneaker.as_json.merge(
+          photos: sneaker.photos.map { |photo|
+            {
+              url: url_for(photo)
+            }
+          }
+        )
+      }, status: :created
     else
       render json: { errors: sneaker.errors.full_messages }, status: :unprocessable_entity
     end
+  rescue ActiveSupport::MessageVerifier::InvalidSignature
+    render json: { error: "Invalid file format or corrupted file" }, status: :unprocessable_entity
   end
 
   def index
@@ -48,7 +60,7 @@ class Api::V1::SneakersController < ApplicationController
   private
 
   def sneaker_params
-    params.require(:sneaker).permit(:model, :brand, :size, :condition)
+    params.require(:sneaker).permit(:model, :brand, :size, :condition, photos: [])
   end
 
   def set_current_user
@@ -59,4 +71,3 @@ class Api::V1::SneakersController < ApplicationController
     @collection = Collection.find_by(user_id: @current_user.id)
   end
 end
-
