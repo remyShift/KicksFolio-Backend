@@ -120,4 +120,32 @@ RSpec.describe "Collections", type: :request do
       expect(response_body["friends_collections"]).to be_empty
     end
   end
+
+  describe "GET /friends/:friend_id" do
+    let(:friend1) { create(:user2) }
+
+    before do
+      user.friendships.create(friend_id: friend1.id)
+      friend1.received_friendships.last.accept
+      create(:collection, user: friend1, name: "Collection Ami 1")
+    end
+
+    it "returns a specific friend's collection" do
+      get "/api/v1/users/#{user.id}/collection/friends/#{friend1.id}", headers: headers
+
+      expect(response).to have_http_status(:ok)
+      response_body = JSON.parse(response.body)
+
+      expect(response_body["friend_collection"]["friend"]["id"]).to eq(friend1.id)
+      expect(response_body["friend_collection"]["collection"]["name"]).to eq("Collection Ami 1")
+    end
+
+    it "returns unauthorized if users are not friends" do
+      non_friend = create(:user3)
+
+      get "/api/v1/users/#{user.id}/collection/friends/#{non_friend.id}", headers: headers
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
 end

@@ -15,7 +15,8 @@ Rails.application.routes.draw do
 
       resources :users, only: [ :create, :destroy, :update, :index, :show ] do
         resource :collection, only: [ :create, :show, :destroy, :update ] do
-          get "friends", on: :collection, to: "collections#friends_collections"
+          get "friends", on: :collection, to: "collections#all_friends_collections"
+          get "friends/:friend_id", to: "collections#friend_collection", on: :collection
           resources :sneakers, only: [ :create, :index, :destroy, :update ]
         end
       end
