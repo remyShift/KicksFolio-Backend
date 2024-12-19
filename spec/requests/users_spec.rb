@@ -99,6 +99,7 @@ RSpec.describe "Users", type: :request do
       get "/api/v1/users/#{user.id}", headers: headers
       expect(response).to have_http_status(:ok)
       expect(user.friends).to eq([ friend ])
+      expect(friend.friends).to eq([ user ])
     end
   end
 
@@ -112,6 +113,7 @@ RSpec.describe "Users", type: :request do
       get "/api/v1/users/#{user.id}", headers: headers
       expect(response).to have_http_status(:ok)
       expect(user.blocked_friends).to eq([ friend ])
+      expect(friend.blocked_friends).to eq([ user ])
     end
   end
 

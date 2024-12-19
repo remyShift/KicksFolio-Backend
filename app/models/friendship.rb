@@ -5,17 +5,29 @@ class Friendship < ApplicationRecord
   after_initialize :set_default_status, if: :new_record?
 
   def accept
-    self.status = "accepted"
+    transaction do
+      update(status: "accepted")
+      Friendship.find_or_create_by(user_id: friend_id, friend_id: user_id)
+        .update(status: "accepted")
+    end
     save
   end
 
   def decline
-    self.status = "declined"
+    transaction do
+      update(status: "declined")
+      Friendship.find_or_create_by(user_id: friend_id, friend_id: user_id)
+        .update(status: "declined")
+    end
     save
   end
 
   def block
-    self.status = "blocked"
+    transaction do
+      update(status: "blocked")
+      Friendship.find_or_create_by(user_id: friend_id, friend_id: user_id)
+        .update(status: "blocked")
+    end
     save
   end
 
