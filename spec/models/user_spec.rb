@@ -5,7 +5,7 @@ RSpec.describe User, type: :model do
   it { should validate_presence_of(:password) }
   it { should validate_presence_of(:first_name) }
   it { should validate_presence_of(:last_name) }
-  it { should validate_presence_of(:pseudo) }
+  it { should validate_presence_of(:username) }
   it { should validate_presence_of(:sneaker_size) }
   it { should validate_presence_of(:gender) }
   it { should have_one(:collection) }
@@ -16,9 +16,9 @@ RSpec.describe User, type: :model do
     should validate_uniqueness_of(:email).case_insensitive
   end
 
-  it "validates uniqueness of pseudo" do
-    create(:user, pseudo: "test", sneaker_size: 9, gender: "male")
-    should validate_uniqueness_of(:pseudo)
+  it "validates uniqueness of username" do
+    create(:user, username: "test", sneaker_size: 9, gender: "male")
+    should validate_uniqueness_of(:username)
   end
 
   it "validates format of email" do
