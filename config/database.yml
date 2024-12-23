@@ -18,11 +18,6 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  host: <%= ENV["DATABASE_HOST"] %>
-  username: <%= ENV["DATABASE_USER"] %>
-  password: <%= ENV["DATABASE_PASSWORD"] %>
-  database: <%= ENV["DATABASE_NAME"] %>
-
 
 development:
   <<: *default
@@ -32,7 +27,7 @@ development:
   # To create additional roles in PostgreSQL see `$ createuser --help`.
   # When left blank, PostgreSQL will use the default role. This is
   # the same name as the operating system user running Rails.
-  #username: kicks_folio_backend
+  #username: kicksfolio_backend
 
   # The password associated with the PostgreSQL role (username).
   #password:
@@ -83,20 +78,7 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  primary: &primary_production
-    <<: *default
-    database: <%= ENV["DATABASE_NAME"] %>
-    username: <%= ENV["DATABASE_USER"] %>
-    password: <%= ENV["DATABASE_PASSWORD"] %>
-  cache:
-    <<: *primary_production
-    database: <%= ENV["DATABASE_NAME"] %>
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_production
-    database: <%= ENV["DATABASE_NAME"] %>
-    migrations_paths: db/queue_migrate
-  cable:
-    <<: *primary_production
-    database: <%= ENV["DATABASE_NAME"] %>
-    migrations_paths: db/cable_migrate
+  <<: *default
+  database: <%= ENV["DATABASE_NAME"] %>
+  username: <%= ENV["DATABASE_USER"] %>
+  password: <%= ENV["DATABASE_PASSWORD"] %>
