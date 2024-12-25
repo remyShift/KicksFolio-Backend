@@ -7,6 +7,9 @@ ruby '3.3.5'
 # Use postgresql as the database for Active Record
 gem "pg", "~> 1.1"
 
+# Allow cross-origin requests
+gem 'rack-cors'
+
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 
