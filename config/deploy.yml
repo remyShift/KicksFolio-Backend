@@ -1,3 +1,5 @@
+# Docker deploy config
+
 # Name of your application. Used to uniquely configure containers.
 service: kicks_folio_backend
 
