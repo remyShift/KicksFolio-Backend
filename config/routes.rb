@@ -3,7 +3,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       post "/login", to: "authentication#login"
       delete "/logout", to: "authentication#logout"
+
       get "/users/me", to: "users#me"
+      get "/users/me/collection", to: "users#collection"
+      get "/users/me/sneakers", to: "users#sneakers"
 
       resources :friendships, only: [ :create, :destroy ] do
         member do

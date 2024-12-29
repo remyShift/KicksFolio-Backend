@@ -1,5 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :authorize_request, only: [:me]
+  before_action :authorize_request, only: [:me, :collection, :sneakers]
 
   def create
     user = User.new(user_params)
@@ -48,6 +48,26 @@ class Api::V1::UsersController < ApplicationController
 
     if user
       render json: { user: user.as_json(except: [:password_digest]) }, status: :ok
+    else
+      render json: { error: "User not found" }, status: :not_found
+    end
+  end
+
+  def collection
+    user = @current_user
+
+    if user
+      render json: { collection: user.collection }, status: :ok
+    else
+      render json: { error: "User not found" }, status: :not_found
+    end
+  end
+
+  def sneakers
+    user = @current_user
+
+    if user
+      render json: { sneakers: user.sneakers }, status: :ok
     else
       render json: { error: "User not found" }, status: :not_found
     end
