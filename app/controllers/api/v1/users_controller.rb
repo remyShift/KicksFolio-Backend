@@ -41,6 +41,16 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def me
+    user = @current_user
+
+    if user
+      render json: { user: user.as_json(except: [:password_digest]) }, status: :ok
+    else
+      render json: { error: "User not found" }, status: :not_found
+    end
+  end
+
   private
 
   def user_params
