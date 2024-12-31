@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       get "/users/me/collection", to: "users#collection"
       get "/users/me/sneakers", to: "users#sneakers"
 
+      delete "/users", to: "users#destroy_all"
+
       resources :friendships, only: [ :create, :destroy ] do
         member do
           patch :accept

@@ -73,6 +73,11 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+  def destroy_all
+    User.destroy_all
+    head :no_content
+  end
+
   private
 
   def user_params
