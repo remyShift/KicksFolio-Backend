@@ -31,7 +31,17 @@ class Api::V1::SneakersController < ApplicationController
     if sneakers.nil?
       render json: { errors: "No sneakers in this collection" }, status: :not_found
     else
-      render json: { sneakers: sneakers }, status: :ok
+      render json: { 
+        sneakers: sneakers.map { |sneaker|
+          sneaker.as_json.merge(
+            images: sneaker.images.map { |image|
+              {
+                url: url_for(image)
+              }
+            }
+          )
+        }
+      }, status: :ok
     end
   end
 
