@@ -12,8 +12,12 @@ class Api::V1::CollectionsController < ApplicationController
     if collection.save
       render json: { collection: collection }, status: :created
     else
+      Rails.logger.error("Collection creation failed: #{collection.errors.full_messages}")
       render json: { errors: collection.errors.full_messages }, status: :unprocessable_entity
     end
+  rescue => e
+    Rails.logger.error("Exception during collection creation: #{e.message}")
+    render json: { errors: [e.message] }, status: :unprocessable_entity
   end
 
   def destroy
