@@ -32,6 +32,10 @@ class User < ApplicationRecord
   validate :sneaker_size_valid?
   before_save :downcase_email
 
+  has_one_attached :profile_picture
+  
+  validates :profile_picture, content_type: ['image/png', 'image/jpeg', 'image/jpg'], if: :profile_picture_attached?
+
   def full_name
     "#{first_name.capitalize} #{last_name.capitalize}"
   end
@@ -56,5 +60,9 @@ class User < ApplicationRecord
 
   def downcase_email
     self.email = email.downcase
+  end
+
+  def profile_picture_attached?
+    profile_picture.attached?
   end
 end

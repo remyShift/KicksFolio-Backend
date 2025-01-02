@@ -36,8 +36,19 @@ class Api::V1::UsersController < ApplicationController
     user = User.find(params[:id])
 
     if user
-      user.update(user_params)
-      render json: { user: user }, status: :ok
+      if params[:user][:profile_picture].present?
+        user.profile_picture.attach(params[:user][:profile_picture])
+      end
+
+      if user.update(user_params)
+        render json: { 
+          user: user.as_json(except: [:password_digest]).merge(
+            profile_picture_url: user.profile_picture.attached? ? url_for(user.profile_picture) : nil
+          )
+        }, status: :ok
+      else
+        render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+      end
     else
       render json: { errors: "User not found" }, status: :not_found
     end
@@ -47,7 +58,11 @@ class Api::V1::UsersController < ApplicationController
     user = @current_user
 
     if user
-      render json: { user: user.as_json(except: [:password_digest]) }, status: :ok
+      render json: { 
+        user: user.as_json(except: [:password_digest]).merge(
+          profile_picture_url: user.profile_picture.attached? ? url_for(user.profile_picture) : nil
+        )
+      }, status: :ok
     else
       render json: { error: "User not found" }, status: :not_found
     end
@@ -81,6 +96,14 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email, :password, :username, :first_name, :last_name, :sneaker_size)
+    params.require(:user).permit(
+      :email, 
+      :password, 
+      :username, 
+      :first_name, 
+      :last_name, 
+      :sneaker_size,
+      :profile_picture
+    )
   end
 end
