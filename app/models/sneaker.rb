@@ -18,6 +18,6 @@ class Sneaker < ApplicationRecord
   end
 
   def sneaker_size_valid?
-    self.sneaker_size % 0.5 == 0
+    self.size % 0.5 == 0
   end
 end
