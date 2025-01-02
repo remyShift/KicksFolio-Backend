@@ -6,7 +6,6 @@ FactoryBot.define do
     last_name { "Doe" }
     username { "johndoe" }
     sneaker_size { 9.5 }
-    gender { "male" }
   end
 
   factory :user2, class: User do
@@ -16,7 +15,6 @@ FactoryBot.define do
     last_name { "Smith" }
     username { "janesmith" }
     sneaker_size { 8.0 }
-    gender { "female" }
   end
 
   factory :user3, class: User do
@@ -26,6 +24,5 @@ FactoryBot.define do
     last_name { "Doe" }
     username { "totouser" }
     sneaker_size { 9.5 }
-    gender { "male" }
   end
 end

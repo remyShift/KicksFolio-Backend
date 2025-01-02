@@ -11,7 +11,6 @@ RSpec.describe "Authentications", type: :request do
           first_name: "John",
           last_name: "Doe",
           sneaker_size: 10,
-          gender: "male"
         }
       }
       expect(response).to have_http_status(:created)

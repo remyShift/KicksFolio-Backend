@@ -16,7 +16,6 @@ RSpec.describe "Users", type: :request do
           first_name: "John",
           last_name: "Doe",
           sneaker_size: 10,
-          gender: "male"
         }
       }
     }
@@ -69,7 +68,6 @@ RSpec.describe "Users", type: :request do
           first_name: "Jane",
           last_name: "Doe",
           sneaker_size: 11,
-          gender: "female"
         }
       }, headers: headers
       expect(response).to have_http_status(:ok)
@@ -78,7 +76,6 @@ RSpec.describe "Users", type: :request do
       expect(user.reload.first_name).to eq("Jane")
       expect(user.reload.last_name).to eq("Doe")
       expect(user.reload.sneaker_size).to eq(11)
-      expect(user.reload.gender).to eq("female")
     end
   end
 
