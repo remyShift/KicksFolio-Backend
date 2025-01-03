@@ -10,7 +10,7 @@ class Sneaker < ApplicationRecord
   validates :condition, presence: true, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 10 }
   validates :status, presence: true, inclusion: { in: STATUS }
   validates :collection_id, presence: true
-  validates :images, presence: true, content_type: ['image/jpeg', 'image/png']
+  validates :images, presence: true
 
   validate :sneaker_size_valid?
 

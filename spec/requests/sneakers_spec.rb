@@ -16,34 +16,34 @@ RSpec.describe "Sneakers", type: :request do
 
   describe "POST /create" do
     it "creates a new sneaker in the users collection" do
+      form_data = {
+        'sneaker[model]' => "Air Jordan 1",
+        'sneaker[brand]' => "Nike",
+        'sneaker[size]' => "9.5",
+        'sneaker[condition]' => "10",
+        'sneaker[status]' => "rocking",
+        'sneaker[images][]' => file
+      }
+
       post "/api/v1/users/#{user.id}/collection/sneakers",
-        params: {
-          sneaker: {
-            model: "Air Jordan 1",
-            brand: "Nike",
-            size: 9.5,
-            condition: 10,
-            status: "rocking",
-            images: [ file ]
-          }
-        },
+        params: form_data,
         headers: headers
 
       expect(response).to have_http_status(:created)
     end
 
     it "creates a new sneaker with photos in the users collection" do
+      form_data = {
+        'sneaker[model]' => "Air Jordan 1",
+        'sneaker[brand]' => "Nike",
+        'sneaker[size]' => "9.5",
+        'sneaker[condition]' => "10",
+        'sneaker[status]' => "rocking",
+        'sneaker[images][]' => file
+      }
+
       post "/api/v1/users/#{user.id}/collection/sneakers",
-        params: {
-          sneaker: {
-            model: "Air Jordan 1",
-            brand: "Nike",
-            size: 9.5,
-            condition: 10,
-            status: "rocking",
-            images: [ file ]
-          }
-        },
+        params: form_data,
         headers: headers
 
       expect(response).to have_http_status(:created)
@@ -78,7 +78,7 @@ RSpec.describe "Sneakers", type: :request do
 
   describe "DELETE /destroy" do
     it "deletes a sneaker from the users collection" do
-      sneaker = create(:sneaker, :with_images, collection: collection)
+      sneaker = create(:sneaker, collection: collection, images: [ file ])
       delete "/api/v1/users/#{user.id}/collection/sneakers/#{sneaker.id}", headers: headers
       expect(response).to have_http_status(:no_content)
     end
@@ -86,7 +86,7 @@ RSpec.describe "Sneakers", type: :request do
 
   describe "PATCH /api/v1/users/:id/collection/sneakers/:id" do
     it "updates a sneaker" do
-      sneaker = create(:sneaker, :with_images, collection: collection)
+      sneaker = create(:sneaker, collection: collection, images: [ file ])
       patch "/api/v1/users/#{user.id}/collection/sneakers/#{sneaker.id}",
         params: {
           sneaker: {
