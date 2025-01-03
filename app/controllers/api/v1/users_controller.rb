@@ -4,11 +4,17 @@ class Api::V1::UsersController < ApplicationController
   def create
     user = User.new(user_params)
 
+    if params[:user][:profile_picture].present?
+      user.profile_picture.attach(params[:user][:profile_picture])
+    end
+
     if user.save
       render json: { 
         message: "User created", 
         user: user.as_json(
           only: [:id, :email, :username, :first_name, :last_name, :sneaker_size, :created_at, :updated_at]
+        ).merge(
+          profile_picture_url: user.profile_picture.attached? ? url_for(user.profile_picture) : nil
         )
       }, status: :created
     else
@@ -18,7 +24,11 @@ class Api::V1::UsersController < ApplicationController
 
   def index
     users = User.all
-    render json: { users: users }, status: :ok
+    render json: { 
+      users: users.as_json(
+        only: [:id, :email, :username, :first_name, :last_name, :sneaker_size, :created_at, :updated_at]
+      ) 
+    }, status: :ok
   end
 
   def show
