@@ -1,7 +1,7 @@
 class Api::V1::AuthenticationController < ApplicationController
   require "jwt"
 
-  before_action :authorize_request, only: [ :logout ]
+  before_action :authorize_request, only: [ :logout, :verify_token ]
 
   REMEMBER_ME_EXPIRATION = 60.days.to_i
   DEFAULT_EXPIRATION = 2.days.to_i
@@ -37,6 +37,19 @@ class Api::V1::AuthenticationController < ApplicationController
     )
 
     render json: { message: "Successfully logged out" }, status: :ok
+  end
+
+  def verify_token
+    render json: {
+      valid: true,
+      user: @current_user.as_json(
+        only: [:id, :email, :username, :first_name, :last_name, :sneaker_size, :created_at, :updated_at]
+      )
+    }, status: :ok
+  rescue JWT::ExpiredSignature
+    render json: { valid: false, error: "Token expiré" }, status: :unauthorized
+  rescue JWT::DecodeError
+    render json: { valid: false, error: "Token invalide" }, status: :unauthorized
   end
 
   private

@@ -3,6 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       post "/login", to: "authentication#login"
       delete "/logout", to: "authentication#logout"
+      post "/verify_token", to: "authentication#verify_token"
 
       get "/users/me", to: "users#me"
       get "/users/me/collection", to: "users#collection"
