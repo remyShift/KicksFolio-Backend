@@ -47,9 +47,9 @@ class Api::V1::AuthenticationController < ApplicationController
       )
     }, status: :ok
   rescue JWT::ExpiredSignature
-    render json: { valid: false, error: "Token expiré" }, status: :unauthorized
+    render json: { valid: false, error: "Token expired" }, status: :unauthorized
   rescue JWT::DecodeError
-    render json: { valid: false, error: "Token invalide" }, status: :unauthorized
+    render json: { valid: false, error: "Invalid token" }, status: :unauthorized
   end
 
   private
