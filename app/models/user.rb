@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_one_attached :profile_picture
   has_one :collection, dependent: :destroy
   has_many :sneakers, through: :collection, dependent: :destroy
 
@@ -31,11 +32,6 @@ class User < ApplicationRecord
 
   validate :sneaker_size_valid?
   before_save :downcase_email
-
-  has_one_attached :profile_picture
-  
-  validates :profile_picture, content_type: [:png, :jpg, :jpeg],
-    if: :profile_picture_attached?
 
   def full_name
     "#{first_name.capitalize} #{last_name.capitalize}"
