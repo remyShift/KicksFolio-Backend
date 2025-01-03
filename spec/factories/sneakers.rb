@@ -1,11 +1,20 @@
 FactoryBot.define do
   factory :sneaker do
+    model { "Air Jordan 1" }
     brand { "Nike" }
-    model { "Air Force 1" }
-    size { 9 }
-    purchase_date { Date.today }
-    purchase_price { 100 }
-    condition { 10 }
-    estimated_value { 150 }
+    size { 9.5 }
+    condition { 9 }
+    status { "rocking" }
+    association :collection
+
+    trait :with_images do
+      after(:build) do |sneaker|
+        sneaker.images.attach(
+          io: StringIO.new(File.read(Rails.root.join('spec', 'fixtures', 'files', 'sneaker.jpg'))),
+          filename: 'sneaker.jpg',
+          content_type: 'image/jpeg'
+        )
+      end
+    end
   end
 end

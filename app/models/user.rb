@@ -34,7 +34,8 @@ class User < ApplicationRecord
 
   has_one_attached :profile_picture
   
-  validates :profile_picture, content_type: ['image/png', 'image/jpeg', 'image/jpg'], if: :profile_picture_attached?
+  validates :profile_picture, content_type: [:png, :jpg, :jpeg],
+    if: :profile_picture_attached?
 
   def full_name
     "#{first_name.capitalize} #{last_name.capitalize}"
@@ -53,7 +54,10 @@ class User < ApplicationRecord
   end
 
   def sneaker_size_valid?
-    self.sneaker_size % 0.5 == 0
+    return if sneaker_size.nil?
+    unless (sneaker_size % 0.5).zero?
+      errors.add(:sneaker_size, "doit être par incréments de 0.5")
+    end
   end
 
   private

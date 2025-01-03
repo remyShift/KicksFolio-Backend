@@ -19,10 +19,14 @@ class Api::V1::SneakersController < ApplicationController
         )
       }, status: :created
     else
+      Rails.logger.error("Sneaker validation errors: #{sneaker.errors.full_messages}")
+      Rails.logger.error("Images attached: #{sneaker.images.attached?}")
+      Rails.logger.error("Image content types: #{sneaker.images.map(&:content_type)}")
       render json: { errors: sneaker.errors.full_messages }, status: :unprocessable_entity
     end
-  rescue ActiveSupport::MessageVerifier::InvalidSignature
-    render json: { error: "Invalid file format or corrupted file" }, status: :unprocessable_entity
+  rescue StandardError => e
+    Rails.logger.error("Error creating sneaker: #{e.message}")
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   def index
@@ -70,7 +74,7 @@ class Api::V1::SneakersController < ApplicationController
   private
 
   def sneaker_params
-    params.require(:sneaker).permit(:model, :brand, :size, :condition, images: [])
+    params.require(:sneaker).permit(:model, :brand, :size, :condition, :status, images: [])
   end
 
   def set_current_user

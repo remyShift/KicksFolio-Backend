@@ -31,6 +31,9 @@ gem "whenever"
 # AWS S3 for image storage
 gem "aws-sdk-s3", require: false
 
+# Active Storage Validations
+gem 'active_storage_validations'
+
 group :development, :test do
   # FactoryBot for instance generation
   gem "factory_bot_rails"

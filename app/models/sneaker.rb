@@ -4,21 +4,22 @@ class Sneaker < ApplicationRecord
 
   STATUS = ['rocking', 'stocking', 'selling']
 
-  validates :brand, :model, :size, :condition, :status, presence: true
-  validates :size, numericality: { greater_than: 7, less_than: 16 }
+  validates :brand, presence: true
+  validates :model, presence: true
+  validates :size, presence: true, numericality: { greater_than: 7, less_than: 16 }
+  validates :condition, presence: true, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 10 }
+  validates :status, presence: true, inclusion: { in: STATUS }
   validates :collection_id, presence: true
-  validates :images, presence: true
+  validates :images, presence: true, content_type: ['image/jpeg', 'image/png']
 
   validate :sneaker_size_valid?
-  validate :status_inclusion
 
-  def status_inclusion
-    unless STATUS.include?(status)
-      errors.add(:status, "is not a valid status")
-    end
-  end
+  private
 
   def sneaker_size_valid?
-    self.size % 0.5 == 0
+    return if size.nil?
+    unless (size % 0.5).zero?
+      errors.add(:size, "must be in increments of 0.5")
+    end
   end
 end

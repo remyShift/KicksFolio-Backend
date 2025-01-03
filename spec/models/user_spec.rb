@@ -32,7 +32,32 @@ RSpec.describe User, type: :model do
   it { should_not allow_value("Password").for(:password) }
 
   it "should have a sneaker size in increments of 0.5" do
-    expect(build(:user, sneaker_size: 10.5)).to be_valid
-    expect(build(:user, sneaker_size: 10.6)).not_to be_valid
+    user = build(:user)
+    user.sneaker_size = 10.5
+    expect(user).to be_valid
+    
+    user.sneaker_size = 10.6
+    expect(user).not_to be_valid
+  end
+
+  describe "profile picture validations" do
+    let(:user) { build(:user) }
+    let(:image) do
+      Rack::Test::UploadedFile.new(
+        Rails.root.join('spec', 'fixtures', 'files', 'sneaker.jpg'),
+        'image/jpeg'
+      )
+    end
+    
+    it "is valid without a profile picture" do
+      expect(user).to be_valid
+    end
+
+    it "is invalid with wrong content type" do
+      allow(image).to receive(:content_type).and_return('application/pdf')
+      user.profile_picture.attach(image)
+      expect(user).not_to be_valid
+      expect(user.errors[:profile_picture]).to include("has an invalid content type")
+    end
   end
 end

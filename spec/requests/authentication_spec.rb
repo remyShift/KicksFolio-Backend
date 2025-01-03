@@ -10,10 +10,13 @@ RSpec.describe "Authentications", type: :request do
           username: "totouser",
           first_name: "John",
           last_name: "Doe",
-          sneaker_size: 10,
+          sneaker_size: 10
         }
       }
       expect(response).to have_http_status(:created)
+      json_response = JSON.parse(response.body)
+      expect(json_response["user"]).to be_present
+      expect(json_response["message"]).to eq("User created")
     end
   end
 
@@ -24,7 +27,7 @@ RSpec.describe "Authentications", type: :request do
       post "/api/v1/login", params: {
         authentication: {
           email: user.email,
-          password: user.password
+          password: "Password123"
         }
       }
       expect(response).to have_http_status(:ok)
