@@ -74,7 +74,7 @@ class Api::V1::SneakersController < ApplicationController
   private
 
   def sneaker_params
-    params.require(:sneaker).permit(:model, :brand, :size, :condition, :status, images: [])
+    params.require(:sneaker).permit(:model, :brand, :size, :condition, :status, :price_paid, :purchase_date, :description, :estimated_value, images: [])
   end
 
   def set_current_user
