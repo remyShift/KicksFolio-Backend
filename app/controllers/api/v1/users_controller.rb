@@ -74,9 +74,20 @@ class Api::V1::UsersController < ApplicationController
 
     if user
       render json: { 
-        user: user.as_json(except: [:password_digest]).merge(
-          profile_picture_url: user.profile_picture.attached? ? url_for(user.profile_picture) : nil
-        )
+        user: {
+          id: user.id,
+          email: user.email,
+          username: user.username,
+          first_name: user.first_name,
+          last_name: user.last_name,
+          sneaker_size: user.sneaker_size,
+          created_at: user.created_at,
+          updated_at: user.updated_at,
+          profile_picture_url: user.profile_picture.attached? ? url_for(user.profile_picture) : nil,
+          friends: user.friends.map { |f| basic_user_json(f) },
+          pending_friends: user.pending_friends.map { |f| basic_user_json(f) },
+          blocked_friends: user.blocked_friends.map { |f| basic_user_json(f) }
+        }
       }, status: :ok
     else
       render json: { error: "User not found" }, status: :not_found
