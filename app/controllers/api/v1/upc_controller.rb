@@ -4,8 +4,7 @@ class Api::V1::UpcController < ApplicationController
   def lookup
     begin
       response = RestClient.get(
-        "https://api.barcodelookup.com/v3/products?barcode=#{params[:barcode]}",
-        { 'Authorization' => ENV['UPC_API_KEY'] }
+        "https://api.barcodelookup.com/v3/products?barcode=#{params[:barcode]}&formatted=y&key=#{ENV['UPC_API_KEY']}"
       )
       
       render json: response.body, status: :ok
