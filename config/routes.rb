@@ -5,6 +5,8 @@ Rails.application.routes.draw do
       delete "/logout", to: "authentication#logout"
       post "/verify_token", to: "authentication#verify_token"
 
+      post '/upc_lookup', to: 'upc#lookup'
+
       get "/users/me", to: "users#me"
       get "/users/me/collection", to: "users#collection"
       get "/users/me/sneakers", to: "users#sneakers"
