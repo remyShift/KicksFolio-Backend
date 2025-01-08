@@ -1,3 +1,5 @@
+require 'rest-client'
+
 class Api::V1::UpcController < ApplicationController
   before_action :authorize_request
 

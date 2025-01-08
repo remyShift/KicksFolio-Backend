@@ -22,6 +22,9 @@ gem "bcrypt"
 # JWT for token authentication
 gem "jwt"
 
+# RestClient for HTTP requests
+gem 'rest-client'
+
 # dotenv for environment variables
 gem "dotenv-rails"
 
