@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       get '/upc_lookup', to: 'upc#lookup'
       get '/sku_lookup', to: 'sku#lookup'
 
+      patch 'admin/change_password', to: 'admin#change_password'
+
       get "/users/me", to: "users#me"
       get "/users/me/collection", to: "users#collection"
       get "/users/me/sneakers", to: "users#sneakers"
