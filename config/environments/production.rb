@@ -78,6 +78,9 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
+  config.hosts << "www.kicksfolio.app"
+  config.hosts << "kicksfolio.app"
+  
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: 'smtp.hostinger.com',
@@ -86,9 +89,10 @@ Rails.application.configure do
     user_name: ENV['MAILER_USERNAME'],
     password: ENV['MAILER_PASSWORD'],
     authentication: 'plain',
-    enable_starttls_auto: true
+    enable_starttls_auto: true,
+    openssl_verify_mode: 'none'
   }
-  config.action_mailer.default_url_options = { host: 'www.kicksfolio.app' }
+  config.action_mailer.default_url_options = { host: 'www.kicksfolio.app', protocol: 'https' }
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
 end
