@@ -1,27 +1,19 @@
 class ApplicationController < ActionController::API
+  before_action :authorize_request
+  
   private
-
+  
   def authorize_request
-    header = request.headers["Authorization"]
-    return unauthorized_error("No token provided") if header.nil?
-
+    header = request.headers['Authorization']
+    header = header.split(' ').last if header
+    
     begin
-      token = header.split(" ").last
-
-      return unauthorized_error("Token invalidated") if InvalidToken.valid.exists?(token: token)
-
-      decoded = JWT.decode(token, ENV["JWT_SECRET"], true, algorithm: "HS256")
-      @current_user = User.find(decoded[0]["sub"])
-    rescue JWT::ExpiredSignature
-      unauthorized_error("Token has expired")
+      @decoded = JWT.decode(header, ENV['JWT_SECRET'], true, algorithm: 'HS256')
+      @current_user = User.find(@decoded[0]['sub'])
     rescue JWT::DecodeError
-      unauthorized_error("Invalid token")
+      render json: { error: 'Invalid token' }, status: :unauthorized
     rescue ActiveRecord::RecordNotFound
-      unauthorized_error("User not found")
+      render json: { error: 'User not found' }, status: :unauthorized
     end
-  end
-
-  def unauthorized_error(message)
-    render json: { error: message }, status: :unauthorized
   end
 end
