@@ -11,9 +11,9 @@ class Api::V1::PasswordsController < ApplicationController
       
       PasswordMailer.reset_password_email(user, reset_token).deliver_now
       
-      render json: { message: "Instructions de réinitialisation envoyées à votre email" }, status: :ok
+      render json: { message: "Reset password instructions sent to your email" }, status: :ok
     else
-      render json: { error: "Email non trouvé" }, status: :not_found
+      render json: { error: "Email not found" }, status: :not_found
     end
   end
 
@@ -22,12 +22,12 @@ class Api::V1::PasswordsController < ApplicationController
     
     if user && token_valid?(user)
       if user.update(password: params[:password], reset_password_token: nil)
-        render json: { message: "Mot de passe mis à jour avec succès" }, status: :ok
+        render json: { message: "Password updated successfully" }, status: :ok
       else
         render json: { error: user.errors.full_messages }, status: :unprocessable_entity
       end
     else
-      render json: { error: "Token invalide ou expiré" }, status: :unprocessable_entity
+      render json: { error: "Invalid or expired token" }, status: :unprocessable_entity
     end
   end
 
