@@ -114,11 +114,6 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
-  def destroy_all
-    User.destroy_all
-    render json: { message: "All users deleted" }, status: :ok
-  end
-
   private
 
   def user_json(user)
