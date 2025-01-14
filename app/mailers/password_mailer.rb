@@ -4,7 +4,7 @@ class PasswordMailer < ApplicationMailer
     @reset_token = reset_token
     mail(
       to: @user.email,
-      subject: "Instructions de réinitialisation de mot de passe"
+      subject: "Reset Password Instructions"
     )
   end
 end
