@@ -83,14 +83,13 @@ Rails.application.configure do
   
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: 'smtp.hostinger.com',
+    address: 'smtp.sendgrid.net',
     port: 587,
     domain: 'kicksfolio.com',
-    user_name: ENV['MAILER_USERNAME'],
-    password: ENV['MAILER_PASSWORD'],
+    user_name: ENV['SENDGRID_USERNAME'],
+    password: ENV['SENDGRID_API_KEY'],
     authentication: 'plain',
     enable_starttls_auto: true,
-    openssl_verify_mode: 'none'
   }
   config.action_mailer.default_url_options = { host: 'www.kicksfolio.app', protocol: 'https' }
   config.action_mailer.raise_delivery_errors = true
